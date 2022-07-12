@@ -19,8 +19,34 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//route for index page
+app.get("/", function (req, res) {
+  var characters = [
+    {
+      name: 'Harry',
+      designation: "Student"
+    },
+    {
+      name: 'Dumbledore',
+      designation: "Headmaster"
+    },
+    {
+      name: 'Snape',
+      designation: "Professor"
+    },
+    {
+      name: 'Hermione',
+      designation: "Student"
+    }
+     ];
+  var subheading = "I though we should involve some magic";
+
+  res.render("index", {
+    characters: characters,
+    subheading: subheading
+  });
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,5 +63,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(8080, function () {
+  console.log("Server is running on port 8080 ");
+});
+
 
 module.exports = app;
